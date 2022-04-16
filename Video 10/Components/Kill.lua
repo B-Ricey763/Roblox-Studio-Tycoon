@@ -1,25 +1,76 @@
-local Upgrader = {}
-Upgrader.__index = Upgrader
+local Kill = {}
 
-function Upgrader.new(tycoon, instance) 
-	local self = setmetatable({}, Upgrader)
+
+Kill.__index = Kill
+
+
+
+function Kill.new(tycoon, instance)
+
+
+	local self = setmetatable({}, Kill)
+
+
+	self.Tycoon = tycoon
+
+
 	self.Instance = instance
+
+
 	
+
+
 	return self
+
+
 end
 
-function Upgrader:Init()
-	self.Instance.Detector.Touched:Connect(function(...)
-		self:OnTouch(...)
+
+
+function Kill:Init()
+
+
+	self.Instance.Touched:Connect(function(...)
+
+
+		self:OnTouched(...)
+
+
 	end)
+
+
 end
 
-function Upgrader:OnTouch(hit)
-	local worth = hit:GetAttribute("Worth")
+
+
+function Kill:OnTouched(hit)
+
+
+	local owner = self.Tycoon.Owner
+
+
+	local character = hit:FindFirstAncestorWhichIsA("Model")
+
+
+	local humanoid = character and character:FindFirstChild("Humanoid")
+
+
 	
-	if worth then
-		hit:SetAttribute("Worth", worth * self.Instance:GetAttribute("Multiplier"))
+
+
+	if humanoid and character ~= owner.Character then
+
+
+		humanoid:TakeDamage(100)
+
+
 	end
+
+
 end
 
-return Upgrader
+
+
+return Kill
+
+
