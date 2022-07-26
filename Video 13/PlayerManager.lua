@@ -73,7 +73,7 @@ function PlayerManager.OnPlayerAdded(player)
 	end)
 
 	local success, data = LoadData(player)
-	sessionData[player.UserId] = Reconcile(if success then data else {}, {
+	sessionData[player.UserId] = Reconcile(if success and data then data else {}, {
 		Money = 0,
 		UnlockIds = {},
 		Multiplier = 1,
